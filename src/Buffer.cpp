@@ -738,7 +738,7 @@ void Buffer::setCopyHostPointer(void* hostPtr, size_t hostSize)
 {
     copyHostPtr = true;
     this->hostSize = hostSize;
-    memmove(deviceBuffer->hostPointer, hostPtr, hostSize);
+    memcpy_bytes(deviceBuffer->hostPointer, hostPtr, hostSize);
 }
 
 cl_mem_flags Buffer::getMemFlags() const
@@ -906,10 +906,10 @@ cl_int BufferAccess::operator()()
     if(hostPtr == buffer->getDeviceHostPointerWithOffset() && bufferOffset == hostOffset)
         return CL_SUCCESS;
     if(writeToBuffer)
-        memmove(static_cast<char*>(buffer->getDeviceHostPointerWithOffset()) + bufferOffset,
+        memcpy_bytes(static_cast<char*>(buffer->getDeviceHostPointerWithOffset()) + bufferOffset,
             static_cast<char*>(hostPtr) + hostOffset, numBytes);
     else
-        memmove(static_cast<char*>(hostPtr) + hostOffset,
+        memcpy_bytes(static_cast<char*>(hostPtr) + hostOffset,
             static_cast<char*>(buffer->getDeviceHostPointerWithOffset()) + bufferOffset, numBytes);
     return CL_SUCCESS;
 }

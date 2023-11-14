@@ -19,6 +19,15 @@
 
 using namespace vc4cl;
 
+void vc4cl::memcpy_bytes(void* dest, const void* src, std::size_t count) {
+    auto dest_byte = reinterpret_cast<uint8_t*>(dest);
+    auto src_byte = reinterpret_cast<const uint8_t*>(src);
+    for (std::size_t i = 0; i < count; ++i, ++src_byte, ++dest_byte)
+    {
+        *dest_byte = *src_byte;
+    }
+}
+
 // This is defined here to not need to include the git_commit.h header into the vc4cl_config.h header, since otherwise
 // we would always do an almost complete fully rebuild (since the git_commit.h header is always updated)
 const std::string platform_config::VERSION = std::string("OpenCL ") + platform_config::OPENCL_VERSION +

@@ -39,7 +39,8 @@
 // -> libvcos.so
 
 // The firmware libraries were moved in Raspberry Pi OS Bullseye from /opt/vc/lib/ to /usr/lib/arm-linux-gnueabihf/
-static const std::vector<std::string> lookupPaths = {"/opt/vc/lib/", "/usr/lib/arm-linux-gnueabihf/"};
+static const std::vector<std::string> lookupPaths = 
+    {"/opt/vc/lib/", "/usr/lib/arm-linux-gnueabihf/", "/usr/lib/aarch64-linux-gnu/"};
 
 struct LibraryHandle
 {

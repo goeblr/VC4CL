@@ -27,6 +27,8 @@
 
 namespace vc4cl
 {
+    void memcpy_bytes(void* dest, const void* src, std::size_t count);
+
     std::unique_lock<std::mutex> lockLog();
 
     /**

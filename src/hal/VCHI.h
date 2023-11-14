@@ -5,7 +5,7 @@
  */
 
 #ifndef VC4CL_VCHI
-#define VC4VC4CL_VCHI
+#define VC4CL_VCHI
 
 #include "hal.h"
 

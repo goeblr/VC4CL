@@ -145,7 +145,9 @@ static void dumpBuffer(std::ostream& os, const DeviceBuffer* buffer)
         // TODO for sub-buffers, the address and contents of the whole buffer is dumped
         uint32_t numWords = 0x80000000 | static_cast<uint32_t>(buffer->size / sizeof(unsigned));
         os.write(reinterpret_cast<char*>(&numWords), sizeof(unsigned));
-        os.write(reinterpret_cast<const char*>(buffer->hostPointer), buffer->size);
+        uint8_t dump[buffer->size];
+        memcpy_bytes(dump, buffer->hostPointer, buffer->size);
+        os.write(reinterpret_cast<const char*>(dump), buffer->size);
     }
 }
 
@@ -410,6 +412,10 @@ cl_int executeKernel(KernelExecution& args)
     unsigned* qpu_uniform_1 = p;
     {
         auto uniformSize = static_cast<size_t>(qpu_uniform_1 - qpu_uniform_0);
+        DEBUG_LOG(DebugLevel::KERNEL_EXECUTION, {
+            std::cout << "Duplicating UNIFORM buffer from " << qpu_uniform_0 << " to " << qpu_uniform_1 << ", " <<
+                uniformSize * sizeof(uint32_t) << " bytes" << std::endl;
+        })
         std::memcpy(qpu_uniform_1, qpu_uniform_0, uniformSize * sizeof(uint32_t));
         p += uniformSize;
 
