@@ -3,7 +3,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   target_compile_options(TestVC4CL PRIVATE -Wno-ignored-attributes -Wno-deprecated-declarations)
 endif()
 target_link_libraries(TestVC4CL VC4CL cpptest-lite ${SYSROOT_LIBRARY_FLAGS})
-target_compile_options(TestVC4CL PRIVATE ${VC4CL_ENABLED_WARNINGS})
+target_compile_options(TestVC4CL PRIVATE ${VC4CL_TESTS_ENABLED_WARNINGS})
 
 include(sources.list)
 

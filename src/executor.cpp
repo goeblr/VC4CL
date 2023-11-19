@@ -34,7 +34,7 @@ static const unsigned MAX_HIDDEN_PARAMETERS = 14;
 
 static unsigned AS_GPU_ADDRESS(const unsigned* ptr, DeviceBuffer* buffer)
 {
-    const char* tmp = *reinterpret_cast<const char**>(&ptr);
+    const char* tmp = reinterpret_cast<const char*>(ptr);
     return static_cast<unsigned>(
         static_cast<uint32_t>(buffer->qpuPointer) + ((tmp) - reinterpret_cast<char*>(buffer->hostPointer)));
 }

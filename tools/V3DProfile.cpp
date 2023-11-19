@@ -236,7 +236,7 @@ int main(int argc, char** argv)
         std::array<int64_t, counters.size()> newCounters{};
         newCounters.fill(0);
         for(unsigned i = 0; i < counters.size(); ++i)
-            newCounters[i] = v3d.getCounter(i);
+            newCounters[i] = v3d.getCounter(static_cast<uint8_t>(i));
 
         if(std::any_of(newCounters.begin(), newCounters.end(), [](int64_t i) -> bool { return i < 0; }))
         {

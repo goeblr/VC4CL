@@ -105,7 +105,7 @@ cl_int vc4cl::returnExtensions(
         {
             cl_name_version_khr item{
                 static_cast<cl_version_khr>(CL_MAKE_VERSION_KHR(ext.majorVersion, ext.minorVersion, 0)), ""};
-            strncpy(item.name, ext.name.data(), CL_NAME_VERSION_MAX_NAME_SIZE_KHR);
+            strncpy(item.name, ext.name.data(), CL_NAME_VERSION_MAX_NAME_SIZE_KHR - 1);
             items.emplace_back(std::move(item));
         }
         memcpy(output, items.data(), requiredSize);
