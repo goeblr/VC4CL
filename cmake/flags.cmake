@@ -26,3 +26,7 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		-Werror=return-local-addr -Werror=uninitialized
 	)
 endif()
+
+if(${WARNINGS_AS_ERRORS})
+	set(VC4C_ENABLED_WARNINGS ${VC4C_ENABLED_WARNINGS} -Werror)
+endif()

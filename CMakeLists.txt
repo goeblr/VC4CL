@@ -1,6 +1,4 @@
 cmake_minimum_required (VERSION 3.1)
-set(CMAKE_C_COMPILER clang)
-set(CMAKE_CXX_COMPILER clang++)
 find_package(PkgConfig)
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 include(CheckSymbolExists)
@@ -9,8 +7,8 @@ include(CheckSymbolExists)
 # General configuration
 ####
 option(INCLUDE_COMPILER "Includes the VC4C compiler" ON)
-option(BUILD_TESTING "Build testing program" OFF)
-option(BUILD_ICD "Build with support for ICD" OFF)
+option(BUILD_TESTING "Build testing program" ON)
+option(BUILD_ICD "Build with support for ICD" ON)
 option(IMAGE_SUPPORT "Experimental image support" OFF)
 # Option to enable/disable cross compilation
 option(CROSS_COMPILE "Cross compile for Raspbian" OFF)
@@ -20,6 +18,8 @@ option(MOCK_HAL "Emulate hardware interface" OFF)
 option(ENABLE_COVERAGE "Enables collection of code coverage via gcov" OFF)
 # Option whether to enable more compile-time checks
 option(ADVANCED_CHECKS "Enable advanced compile-time checks" OFF)
+# Option to treat warnings as errors
+option(WARNINGS_AS_ERRORS "Treat all warnings as errors" ON)
 
 if(CROSS_COMPILE)
 	include(cmake/crosscompile.cmake)
@@ -36,10 +36,8 @@ project (VC4CL VERSION 0.4.${BUILD_NUMBER})
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-#set(CMAKE_CXX_FLAGS_DEBUG "-g3 -rdynamic -mstrict-align")
-#set(CMAKE_CXX_FLAGS_RELEASE "-O3 -mstrict-align")
-set(CMAKE_CXX_FLAGS_DEBUG "-g3 -rdynamic -mstrict-align -mno-unaligned-access")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -mstrict-align -mno-unaligned-access")
+set(CMAKE_CXX_FLAGS_DEBUG "-g3 -rdynamic")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
@@ -122,7 +120,7 @@ if (BUILD_TESTING)
 			PREFIX 				${CMAKE_BINARY_DIR}/cpptest-lite
 			SOURCE_DIR 			${CMAKE_SOURCE_DIR}/lib/cpptest-lite
 			GIT_REPOSITORY		https://github.com/doe300/cpptest-lite.git
-			UPDATE_COMMAND 		git pull -f https://github.com/doe300/cpptest-lite.git
+			UPDATE_COMMAND 		git pull --ff-only -f https://github.com/doe300/cpptest-lite.git
 			STEP_TARGETS 		build
 	  		EXCLUDE_FROM_ALL	TRUE
 	  		TIMEOUT 			30		#Timeout for downloads, in seconds

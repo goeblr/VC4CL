@@ -15,3 +15,5 @@ nbproject/
 lib/
 testResult.log
 testing/
+
+build*/
